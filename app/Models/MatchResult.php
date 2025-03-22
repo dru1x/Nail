@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MatchResult extends Model
@@ -53,9 +54,9 @@ class MatchResult extends Model
         return $this->hasMany(SetResult::class);
     }
 
-    public function scores(): HasMany
+    public function scores(): MorphMany
     {
-        return $this->hasMany(Score::class);
+        return $this->morphMany(Score::class, 'result');
     }
 
     public function leftScore(): HasOne

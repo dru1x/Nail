@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Entry;
 use App\Models\Handicap;
+use App\Models\MatchResult;
 use App\Models\Score;
+use App\Models\SetResult;
 use App\Services\MatchResultService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -24,7 +26,11 @@ class ScoreFactory extends Factory
         $points         = fake()->numberBetween(0, 150);
         $pointsAdjusted = $points + $handicapBefore->match_allowance;
 
+        $resultType = fake()->randomElement(['match', 'set']);
+
         return [
+            'result_type'           => $resultType,
+            'result_id'             => $resultType == 'match' ? MatchResult::factory() : SetResult::factory(),
             'entry_id'              => Entry::factory(),
             'handicap_before'       => $handicapBefore->number,
             'handicap_after'        => $handicapAfter->number,

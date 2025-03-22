@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SetResult extends Model
@@ -34,6 +35,11 @@ class SetResult extends Model
     public function winner(): BelongsTo
     {
         return $this->belongsTo(Entry::class, 'winner_id');
+    }
+
+    public function scores(): MorphMany
+    {
+        return $this->morphMany(Score::class, 'result');
     }
 
     // Scopes ----

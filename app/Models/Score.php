@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\ResultType;
 use App\Enums\Side;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Score extends Model
@@ -14,7 +16,8 @@ class Score extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'match_result_id',
+        'result_type',
+        'result_id',
         'entry_id',
         'side',
         'handicap_before',
@@ -27,7 +30,8 @@ class Score extends Model
     ];
 
     protected $casts = [
-        'match_result_id'       => 'integer',
+        'result_type'           => ResultType::class,
+        'result_id'             => 'integer',
         'entry_id'              => 'integer',
         'side'                  => Side::class,
         'handicap_before'       => 'integer',
@@ -54,8 +58,8 @@ class Score extends Model
         return $this->belongsTo(Entry::class);
     }
 
-    public function matchResult(): BelongsTo
+    public function result(): MorphTo
     {
-        return $this->belongsTo(MatchResult::class);
+        return $this->morphTo('result');
     }
 }
