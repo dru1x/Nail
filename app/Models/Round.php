@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ class Round extends Model
         'name',
         'starts_on',
         'ends_on',
+        'sequence',
     ];
 
     protected function casts(): array
@@ -25,6 +27,7 @@ class Round extends Model
             'stage_id'  => 'integer',
             'starts_on' => 'immutable_date',
             'ends_on'   => 'immutable_date',
+            'sequence'  => 'integer',
         ];
     }
 
@@ -40,5 +43,13 @@ class Round extends Model
     public function stage(): BelongsTo
     {
         return $this->belongsTo(Stage::class);
+    }
+
+    // Scopes ----
+
+    /** @noinspection PhpUnused */
+    public function scopeInSequence(Builder $query): Builder
+    {
+        return $query->orderBy('sequence');
     }
 }

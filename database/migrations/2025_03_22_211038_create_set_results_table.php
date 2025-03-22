@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('match_result_id')->constrained('match_results');
             $table->foreignId('winner_id')->nullable()->constrained('entries');
 
-            $table->unsignedTinyInteger('sequence');
+            $table->unsignedTinyInteger('sequence')->default(0)->index();
 
             $table->timestamps();
             $table->softDeletes();
