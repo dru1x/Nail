@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum MatchType: string
+enum MatchFormat: string
 {
     case Scores = 'scores';
     case Sets = 'sets';

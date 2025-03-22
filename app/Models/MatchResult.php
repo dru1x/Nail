@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\MatchType;
+use App\Enums\MatchFormat;
 use App\Enums\Side;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +24,7 @@ class MatchResult extends Model
         'round_id',
         'winner_id',
         'next_match_result_id',
-        'match_type',
+        'format',
         'shot_at',
     ];
 
@@ -32,7 +32,7 @@ class MatchResult extends Model
         'round_id'             => 'integer',
         'winner_id'            => 'integer',
         'next_match_result_id' => 'integer',
-        'match_type'           => MatchType::class,
+        'format'               => MatchFormat::class,
         'shot_at'              => 'immutable_datetime',
     ];
 

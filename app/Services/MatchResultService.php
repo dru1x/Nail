@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Data\MatchResultData;
 use App\Data\ScoreData;
-use App\Enums\MatchType;
+use App\Enums\MatchFormat;
 use App\Enums\Side;
 use App\Models\Competition;
 use App\Models\Entry;
@@ -122,7 +122,7 @@ class MatchResultService
             $round = $this->resolveRound($stage, $data->shotAt);
 
             // Make a new match result
-            $match = MatchResult::make(['type' => MatchType::Scores, 'shot_at' => $data->shotAt]);
+            $match = MatchResult::make(['type' => MatchFormat::Scores, 'shot_at' => $data->shotAt]);
             $match->round()->associate($round);
             $match->save();
 
@@ -210,7 +210,7 @@ class MatchResultService
 
         // Generate matches for each round
         foreach ($rounds as $round) {
-            $this->createMatchesForRound($round, MatchType::Sets, $roundMatchCount);
+            $this->createMatchesForRound($round, MatchFormat::Sets, $roundMatchCount);
             $roundMatchCount /= 2;
         }
 
@@ -376,18 +376,18 @@ class MatchResultService
     /**
      * Generate a number of matches for a round
      *
-     * @param Round     $round
-     * @param MatchType $type
-     * @param int       $count
+     * @param Round       $round
+     * @param MatchFormat $format
+     * @param int         $count
      *
      * @return void
      */
-    protected function createMatchesForRound(Round $round, MatchType $type, int $count): void
+    protected function createMatchesForRound(Round $round, MatchFormat $format, int $count): void
     {
         for ($i = 0; $i < $count; $i++) {
             $round->matchResults()->create([
-                'match_type' => $type,
-                'shot_at'    => $round->starts_on,
+                'format'  => $format,
+                'shot_at' => $round->starts_on,
             ]);
         }
     }
