@@ -22,15 +22,17 @@ class MatchResult extends Model
     protected $fillable = [
         'round_id',
         'winner_id',
+        'next_match_result_id',
         'match_type',
         'shot_at',
     ];
 
     protected $casts = [
-        'round_id'   => 'integer',
-        'winner_id'  => 'integer',
-        'match_type' => MatchType::class,
-        'shot_at'    => 'immutable_datetime',
+        'round_id'             => 'integer',
+        'winner_id'            => 'integer',
+        'next_match_result_id' => 'integer',
+        'match_type'           => MatchType::class,
+        'shot_at'              => 'immutable_datetime',
     ];
 
     // Attributes ----
@@ -50,6 +52,11 @@ class MatchResult extends Model
     public function round(): BelongsTo
     {
         return $this->belongsTo(Round::class);
+    }
+
+    public function nextMatchResult(): BelongsTo
+    {
+        return $this->belongsTo(MatchResult::class, 'next_match_result_id');
     }
 
     public function setResults(): HasMany
