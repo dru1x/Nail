@@ -14,13 +14,13 @@ return new class extends Migration {
             $table->foreignId('entry_id')->constrained('entries');
 
             $table->string('side', 5)->index();
-            $table->unsignedTinyInteger('handicap_before');
-            $table->unsignedTinyInteger('handicap_after');
-            $table->unsignedMediumInteger('allowance');
-            $table->unsignedTinyInteger('match_points');
-            $table->unsignedMediumInteger('match_points_adjusted');
-            $table->unsignedTinyInteger('bonus_points');
-            $table->unsignedTinyInteger('league_points');
+            $table->unsignedTinyInteger('handicap_before')->default(0);
+            $table->unsignedTinyInteger('handicap_after')->default(0);
+            $table->unsignedMediumInteger('allowance')->default(0);
+            $table->unsignedTinyInteger('match_points')->default(0);
+            $table->unsignedMediumInteger('match_points_adjusted')->default(0);
+            $table->unsignedTinyInteger('bonus_points')->default(0);
+            $table->unsignedTinyInteger('league_points')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

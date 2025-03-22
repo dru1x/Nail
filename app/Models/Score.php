@@ -25,6 +25,7 @@ class Score extends Model
         'allowance',
         'match_points',
         'match_points_adjusted',
+        'set_points',
         'bonus_points',
         'league_points',
     ];
@@ -40,6 +41,7 @@ class Score extends Model
         'allowance'             => 'integer',
         'match_points'          => 'integer',
         'match_points_adjusted' => 'integer',
+        'set_points'            => 'integer',
         'bonus_points'          => 'integer',
         'league_points'         => 'integer',
     ];
