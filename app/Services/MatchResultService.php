@@ -198,6 +198,30 @@ class MatchResultService
         });
     }
 
+    /**
+     * Generate a match bracket for the given rounds
+     *
+     * @param Round ...$rounds Pre-sorted rounds
+     */
+    public function generateBracket(Round ...$rounds): void
+    {
+        $rounds          = collect($rounds);
+        $roundMatchCount = pow(2, $rounds->count()) / 2;
+
+        // Generate matches for each round
+        foreach ($rounds as $round) {
+            $this->createMatchesForRound($round, MatchType::Sets, $roundMatchCount);
+            $roundMatchCount /= 2;
+        }
+
+        // Set up progression between rounds
+        foreach ($rounds->slice(0, -1) as $roundIndex => $round) {
+            if ($nextRound = $rounds->get($roundIndex + 1)) {
+                $this->setupRoundProgression($round, $nextRound);
+            }
+        }
+    }
+
     // Internals ----
 
     /**
@@ -346,6 +370,56 @@ class MatchResultService
 
         if ($matchPointsDifference <= self::CLOSE_LOSS_THRESHOLD) {
             $losingScore->increment('bonus_points', self::BONUS_POINTS_FOR_CLOSE_LOSS);
+        }
+    }
+
+    /**
+     * Generate a number of matches for a round
+     *
+     * @param Round     $round
+     * @param MatchType $type
+     * @param int       $count
+     *
+     * @return void
+     */
+    protected function createMatchesForRound(Round $round, MatchType $type, int $count): void
+    {
+        for ($i = 0; $i < $count; $i++) {
+            $round->matchResults()->create([
+                'match_type' => $type,
+                'shot_at'    => $round->starts_on,
+            ]);
+        }
+    }
+
+    /**
+     * Set up match progression between two rounds using seeded results
+     *
+     * @param Round $round
+     * @param Round $nextRound
+     *
+     * @return void
+     */
+    protected function setupRoundProgression(Round $round, Round $nextRound): void
+    {
+        /** @var Collection<int, Collection<int, MatchResult>> $halves */
+        $halves = $round->matchResults->split(2);
+
+        $topMatches    = $halves->first();
+        $bottomMatches = $halves->last()->reverse()->values();
+
+        foreach ($nextRound->matchResults as $matchIndex => $nextMatch) {
+            $topMatches
+                ->get($matchIndex)
+                ->nextMatchResult()
+                ->associate($nextMatch)
+                ->save();
+
+            $bottomMatches
+                ->get($matchIndex)
+                ->nextMatchResult()
+                ->associate($nextMatch)
+                ->save();
         }
     }
 }

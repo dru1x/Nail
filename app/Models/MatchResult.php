@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MatchResult extends Model
@@ -69,14 +70,14 @@ class MatchResult extends Model
         return $this->morphMany(Score::class, 'result');
     }
 
-    public function leftScore(): HasOne
+    public function leftScore(): MorphOne
     {
         return $this->scores()
             ->where('side', Side::Left)
             ->one();
     }
 
-    public function rightScore(): HasOne
+    public function rightScore(): MorphOne
     {
         return $this->scores()
             ->where('side', Side::Right)
