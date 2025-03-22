@@ -48,6 +48,11 @@ class MatchResult extends Model
         return $this->belongsTo(Round::class);
     }
 
+    public function setResults(): HasMany
+    {
+        return $this->hasMany(SetResult::class);
+    }
+
     public function scores(): HasMany
     {
         return $this->hasMany(Score::class);

@@ -10,7 +10,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class MatchFactory extends Factory
+class MatchResultFactory extends Factory
 {
     protected $model = MatchResult::class;
 
