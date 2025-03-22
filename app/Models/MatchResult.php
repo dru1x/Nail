@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MatchType;
 use App\Enums\Side;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,13 +22,15 @@ class MatchResult extends Model
     protected $fillable = [
         'round_id',
         'winner_id',
+        'match_type',
         'shot_at',
     ];
 
     protected $casts = [
-        'round_id'  => 'integer',
-        'winner_id' => 'integer',
-        'shot_at'   => 'immutable_datetime',
+        'round_id'   => 'integer',
+        'winner_id'  => 'integer',
+        'match_type' => MatchType::class,
+        'shot_at'    => 'immutable_datetime',
     ];
 
     // Attributes ----

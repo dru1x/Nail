@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\MatchResultData;
 use App\Data\ScoreData;
+use App\Enums\MatchType;
 use App\Enums\Side;
 use App\Models\Competition;
 use App\Models\Entry;
@@ -121,7 +122,7 @@ class MatchResultService
             $round = $this->resolveRound($stage, $data->shotAt);
 
             // Make a new match result
-            $match = MatchResult::make(['shot_at' => $data->shotAt]);
+            $match = MatchResult::make(['type' => MatchType::Scores, 'shot_at' => $data->shotAt]);
             $match->round()->associate($round);
             $match->save();
 
