@@ -13,7 +13,8 @@
     "require": {
         "php": "^8.4",
         "laravel/framework": "^12.42",
-        "laravel/tinker": "^2.10.2"
+        "laravel/tinker": "^2.10.2",
+        "spatie/laravel-backup": "^9.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
